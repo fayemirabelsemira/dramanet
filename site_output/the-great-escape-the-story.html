@@ -73,7 +73,11 @@
   <style>
     /* Ad containers reserve space to prevent layout shift (CLS) when ads load */
     .ad-slot { display:flex; align-items:center; justify-content:center; overflow:hidden; }
-    .ad-slot:empty::before { content:'Advertisement'; font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:#525252; }
+    /* Ad slots with no ad code inside are hidden completely (no box, no reserved space).
+       As soon as you paste ad code into a slot, it shows up again. */
+    .ad-slot:not(:has(*)) { display:none !important; }
+    .ad-wrap:not(:has(.ad-slot *)) { display:none !important; }
+    #page-main:not(:has(aside .ad-slot *)) { grid-template-columns:minmax(0,1fr) !important; max-width:64rem; }
     .no-scrollbar::-webkit-scrollbar { display:none; }
     .no-scrollbar { -ms-overflow-style:none; scrollbar-width:none; }
   </style>
@@ -120,7 +124,7 @@
   </header>
 
   <!-- AD SLOT 1 — Top leaderboard banner (728x90 desktop / 320x50 mobile) -->
-  <div class="max-w-7xl mx-auto w-full px-4 pt-4">
+  <div class="ad-wrap max-w-7xl mx-auto w-full px-4 pt-4">
     <div id="ad-slot-1" class="ad-slot w-full min-h-[50px] sm:min-h-[90px] rounded bg-neutral-900/60 border border-dashed border-neutral-800">
       <!-- Paste Monetag/PropellerAds banner code for AD SLOT 1 here -->
     </div>
@@ -128,7 +132,7 @@
   <!-- /AD SLOT 1 -->
 
   <!-- ===================== MAIN ===================== -->
-  <main class="flex-1 max-w-7xl mx-auto w-full px-4 py-6 grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-8">
+  <main id="page-main" class="flex-1 max-w-7xl mx-auto w-full px-4 py-6 grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-8">
 
     <!-- ---------- Primary column ---------- -->
     <section class="min-w-0">
@@ -206,7 +210,7 @@
     </section>
 
     <!-- ---------- Sidebar ---------- -->
-    <aside class="space-y-6 lg:sticky lg:top-24 lg:self-start">
+    <aside class="ad-wrap space-y-6 lg:sticky lg:top-24 lg:self-start">
 
       <!-- AD SLOT 4 — Sidebar rectangle (300x250) -->
       <div id="ad-slot-4" class="ad-slot w-full min-h-[250px] rounded bg-neutral-900/60 border border-dashed border-neutral-800">
@@ -224,7 +228,7 @@
   </main>
 
   <!-- AD SLOT 6 — Bottom banner above footer -->
-  <div class="max-w-7xl mx-auto w-full px-4 pb-6">
+  <div class="ad-wrap max-w-7xl mx-auto w-full px-4 pb-6">
     <div id="ad-slot-6" class="ad-slot w-full min-h-[90px] rounded bg-neutral-900/60 border border-dashed border-neutral-800">
       <!-- Paste Monetag/PropellerAds banner code for AD SLOT 6 here -->
     </div>
@@ -245,7 +249,7 @@
   </footer>
 
   <!-- AD SLOT 7 — Sticky mobile bottom banner (320x50, mobile only) -->
-  <div id="ad-slot-7-wrap" class="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-neutral-950/95 border-t border-neutral-800">
+  <div id="ad-slot-7-wrap" class="ad-wrap lg:hidden fixed bottom-0 inset-x-0 z-40 bg-neutral-950/95 border-t border-neutral-800">
     <button id="closeStickyAd" class="absolute -top-6 right-2 w-6 h-6 rounded-t bg-neutral-800 text-neutral-400 text-xs" aria-label="Close ad">&times;</button>
     <div id="ad-slot-7" class="ad-slot w-full min-h-[50px]">
       <!-- Paste Monetag/PropellerAds 320x50 sticky banner code for AD SLOT 7 here -->
@@ -285,7 +289,8 @@
 
       // Sticky mobile ad close + keep footer visible above it
       var stickyWrap = document.getElementById('ad-slot-7-wrap');
-      document.body.style.paddingBottom = window.innerWidth < 1024 ? '60px' : '';
+      var stickyHasAd = !!document.querySelector('#ad-slot-7 *');
+      document.body.style.paddingBottom = (stickyHasAd && window.innerWidth < 1024) ? '60px' : '';
       document.getElementById('closeStickyAd').addEventListener('click', function () {
         stickyWrap.remove();
         document.body.style.paddingBottom = '';
