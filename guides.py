@@ -1,4 +1,4 @@
-"""Builds the /guides section of StreamHub (called by generate_site.py).
+"""Builds the /guides section of DramaNet (called by generate_site.py).
 
 Every guide is built from real data:
   - catalog.csv (your titles and your own descriptions),

@@ -1,4 +1,4 @@
-# StreamHub
+# DramaNet
 
 A static guide site for K-dramas, C-dramas, anime and movies: official trailers, cast,
 and where to watch each title on licensed services. No videos are hosted.

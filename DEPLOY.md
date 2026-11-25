@@ -1,4 +1,4 @@
-# StreamHub: how to update and publish your site
+# DramaNet: how to update and publish your site
 
 Everything happens in **Terminal** on your Mac (press ⌘ + Space, type *Terminal*, press Enter).
 Copy each grey line, paste it into Terminal, and press Enter.
@@ -30,12 +30,12 @@ To preview it, double-click `site_output/index.html` in Finder.
 
 ### Option B: GitHub Pages
 
-1. Create a new **public** repository on <https://github.com/new>, for example `streamhub`.
+1. Create a new **public** repository on <https://github.com/new>, for example `dramanet`.
 2. On the new repository page, click **uploading an existing file**.
 3. Open **site_output** in Finder, select everything inside it (⌘ + A), and drag it onto the page.
    (Upload the files *inside* the folder, not the folder itself.) Click **Commit changes**.
 4. Go to **Settings → Pages**. Under *Branch*, pick **main** and **/(root)**, then **Save**.
-5. After a minute or two your site is at `https://YOUR-USERNAME.github.io/streamhub/`.
+5. After a minute or two your site is at `https://YOUR-USERNAME.github.io/dramanet/`.
 
 Note: the browser upload takes up to 100 files at a time, and your site has about 1,500 pages,
 so Netlify (Option A) is much easier for this site.
@@ -43,7 +43,7 @@ so Netlify (Option A) is much easier for this site.
 ## 3. After the first publish: get found on Google
 
 1. Open `generate_site.py` in TextEdit and set `SITE_URL` to your live address, with no slash at the end,
-   for example `SITE_URL = "https://streamhub-aye.netlify.app"`.
+   for example `SITE_URL = "https://dramanet.netlify.app"`.
 2. Build again (step 1) and upload again. This turns on `sitemap.xml`, canonical links and share links
    (the preview card people see on Facebook, Messenger and X).
 3. Go to <https://search.google.com/search-console> and sign in with your Google account.

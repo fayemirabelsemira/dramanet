@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""StreamHub static site generator.
+"""DramaNet static site generator.
 
 Reads catalog.csv (or content.csv) and template.html from this folder and writes a
 ready-to-upload website into site_output/:
@@ -26,10 +26,10 @@ from urllib.parse import quote_plus
 # ---------------------------------------------------------------------------
 # Settings you can change
 # ---------------------------------------------------------------------------
-SITE_NAME = "StreamHub"
-# Your live address once deployed, e.g. "https://streamhub-aye.netlify.app" (no slash at the end).
+SITE_NAME = "DramaNet"
+# Your live address once deployed, e.g. "https://dramanet.netlify.app" (no slash at the end).
 # Leave it empty until you know it; the sitemap and canonical links need it.
-SITE_URL = ""
+SITE_URL = "https://dramanet.netlify.app"
 # Google Search Console "HTML tag" code (just the content="..." part). See DEPLOY.md, step 3.
 GOOGLE_VERIFICATION = ""
 # Email shown on the Contact, Privacy and DMCA pages. Change this to your own address.
@@ -345,7 +345,7 @@ def shell(title, body, description="", overlay=False, active="", root="", path="
 <body class="bg-black text-zinc-100 min-h-screen flex flex-col">
   <header id="site-header" class="{'fixed' if overlay else 'sticky'} top-0 inset-x-0 z-50 transition-colors duration-300 {header_bg}">
     <div class="max-w-[1800px] mx-auto px-4 sm:px-8 h-16 flex items-center gap-4 sm:gap-8">
-      <a href="{root}index.html" class="text-xl sm:text-2xl font-black tracking-tight shrink-0">Stream<span class="text-red-600">Hub</span></a>
+      <a href="{root}index.html" class="text-xl sm:text-2xl font-black tracking-tight shrink-0">Drama<span class="text-red-600">Net</span></a>
       <nav class="flex items-center gap-3 sm:gap-6 text-sm" aria-label="Main navigation">
         {link("Home", "index.html", "home", "hidden sm:inline")}
         {link("Explore", "explore.html", "explore")}
