@@ -880,6 +880,12 @@ def main():
     (OUTPUT_DIR / "index.html").write_text(build_home(written, guide_cards), encoding="utf-8")
     (OUTPUT_DIR / "explore.html").write_text(build_explore(written), encoding="utf-8")
     write_info_pages()
+    # Files in static/ (e.g. Google Search Console verification) are copied as-is on every build.
+    static_dir = BASE_DIR / "static"
+    if static_dir.is_dir():
+        for item in static_dir.iterdir():
+            if item.is_file() and not item.name.startswith("."):
+                shutil.copy2(item, OUTPUT_DIR / item.name)
     write_seo_files([r["_slug"] for r in written], guide_paths)
     print(f"  Guides: {len(guide_paths) - 1} guide page(s) in site_output/guides/")
 
