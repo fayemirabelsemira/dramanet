@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-black">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact | StreamHub</title>
+  <meta name="description" content="">
+  <meta name="theme-color" content="#000000">
+  <meta property="og:site_name" content="StreamHub">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Contact | StreamHub">
+  <meta property="og:description" content="">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Contact | StreamHub">
+  <meta name="twitter:description" content="">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .no-scrollbar::-webkit-scrollbar { display:none; }
+    .no-scrollbar { -ms-overflow-style:none; scrollbar-width:none; }
+    .line-clamp-3 { display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
+  </style>
+</head>
+<body class="bg-black text-zinc-100 min-h-screen flex flex-col">
+  <header id="site-header" class="sticky top-0 inset-x-0 z-50 transition-colors duration-300 bg-black/95 border-b border-white/10">
+    <div class="max-w-[1800px] mx-auto px-4 sm:px-8 h-16 flex items-center gap-4 sm:gap-8">
+      <a href="index.html" class="text-xl sm:text-2xl font-black tracking-tight shrink-0">Stream<span class="text-red-600">Hub</span></a>
+      <nav class="flex items-center gap-3 sm:gap-6 text-sm" aria-label="Main navigation">
+        <a href="index.html" class="text-zinc-300 hover:text-white transition hidden sm:inline">Home</a>
+        <a href="explore.html" class="text-zinc-300 hover:text-white transition ">Explore</a>
+        <a href="explore.html?type=movie" class="text-zinc-300 hover:text-white transition ">Movies</a>
+        <a href="explore.html?type=series" class="text-zinc-300 hover:text-white transition ">Series</a>
+        <a href="guides/index.html" class="text-zinc-300 hover:text-white transition hidden md:inline">Guides</a>
+      </nav>
+      <form action="explore.html" method="get" class="ml-auto" role="search">
+        <label class="relative flex items-center">
+          <span class="sr-only">Search</span>
+          <svg class="absolute left-2.5 w-4 h-4 text-zinc-400 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path stroke-linecap="round" d="M20 20l-3.5-3.5"/></svg>
+          <input name="q" type="search" placeholder="Search" autocomplete="off"
+                 class="w-9 focus:w-44 sm:w-48 sm:focus:w-64 transition-all pl-8 pr-2 py-1.5 rounded bg-black/50 ring-1 ring-white/20 focus:ring-white/60 focus:outline-none text-sm placeholder:text-zinc-400">
+        </label>
+      </form>
+    </div>
+  </header>
+
+  <main class="flex-1 max-w-3xl w-full mx-auto px-4 py-10">
+    <h1 class="text-2xl sm:text-3xl font-bold mb-6">Contact</h1>
+    <div class="space-y-4 text-sm sm:text-base text-zinc-300 leading-relaxed">
+      <p>Email us at <a class="underline" href="mailto:contact@example.com">contact@example.com</a>.</p>
+    </div>
+  </main>
+
+  <footer class="mt-auto border-t border-white/10 py-8 px-4 text-center text-xs text-zinc-500 space-y-2">
+    <nav class="flex justify-center gap-4" aria-label="Footer">
+      <a href="guides/index.html" class="hover:text-zinc-300">Guides</a>
+      <a href="dmca.html" class="hover:text-zinc-300">DMCA</a>
+      <a href="privacy.html" class="hover:text-zinc-300">Privacy</a>
+      <a href="terms.html" class="hover:text-zinc-300">Terms</a>
+      <a href="contact.html" class="hover:text-zinc-300">Contact</a>
+    </nav>
+    <p>&copy; 2026 StreamHub. We don't host any videos. Trailers play from YouTube; title data and images from TMDB.</p>
+  </footer>
+
+  <!-- ============================================================
+       MONETAG / PROPELLERADS — GLOBAL SCRIPTS (homepage, Explore, info pages)
+       Paste your Monetag / PropellerAds code below
+       ============================================================ -->
+  <script type="text/javascript">
+    /* PASTE MONETAG / PROPELLERADS CODE HERE */
+  </script>
+  <!-- ============ END MONETAG / PROPELLERADS ============ -->
+</body>
+</html>

@@ -1,0 +1,14 @@
+Merged duplicates (removed -> kept):
+  bon-appetit -> bon-appetit-your-majesty
+
+Please check these: they share one poster but have different titles,
+so one of them may have the wrong poster, cast or year.
+  Stranger Things - Season 5 (stranger-things-season-5), Stranger (stranger)
+  Taming the Husband (taming-the-husband), The Husband (the-husband)
+  Heart Signal Season 5 (heart-signal-season-5), Signal (signal), Heart Signal Season 4 (heart-signal-season-4), Heart Signal 3 (heart-signal-3), Heart Signal 2 (heart-signal-2)
+  School (school), Law School (law-school)
+  A Gentleman and a Young Lady (a-gentleman-and-a-young-lady), Young Lady (young-lady)
+  Queen Mantis (queen-mantis), Mantis (mantis)
+  Arthdal Chronicles: The Sword of Aramun (arthdal-chronicles-the-sword-of-aramun), Arthdal Chronicles (arthdal-chronicles)
+  D.P. - Deserter Pursuit Dog Day DP (d-p-deserter-pursuit-dog-day-dp), D.P. Season 2 - Deserter Pursuit Dog Day 2 (d-p-season-2-deserter-pursuit-dog-day-2)
+  Erotic Tutoring 2 (erotic-tutoring-2), Erotic Tutorin (erotic-tutorin)
