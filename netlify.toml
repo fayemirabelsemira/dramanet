@@ -1,0 +1,4 @@
+# Netlify settings: no build step; publish the already-built site_output folder.
+[build]
+  publish = "site_output"
+  command = ""
