@@ -47,7 +47,26 @@ CONTENT_FILES = [BASE_DIR / "catalog.csv", BASE_DIR / "content.csv"]
 OUTPUT_DIR = BASE_DIR / "site_output"
 
 REQUIRED_COLUMNS = ["title", "slug", "description", "cast", "genre", "year", "poster_url"]
-FALLBACK_POSTER = "https://placehold.co/300x450/1f1f1f/e50914?text=No+Poster"
+FALLBACK_POSTER = "https://placehold.co/300x450/1f1f1f/a3a3a3?text=No+Poster"
+
+# Logo: the icon shown in the header. The matching files (favicon.svg, favicon.png,
+# apple-touch-icon.png, og-image.png) live in static/ and are copied to the site on every build.
+LOGO_ICON_SVG = (
+    '<svg class="w-8 h-8 shrink-0" width="32" height="32" viewBox="0 0 64 64" aria-hidden="true">'
+    '<defs><linearGradient id="dnLogo" x1="0" y1="0" x2="1" y2="1">'
+    '<stop offset="0" stop-color="#8B5CF6"/><stop offset="1" stop-color="#EC4899"/></linearGradient></defs>'
+    '<rect width="64" height="64" rx="16" fill="url(#dnLogo)"/>'
+    '<path fill="#fff" fill-rule="evenodd" d="M17 13h13a19 19 0 0 1 0 38H17zM25 21v22h5a11 11 0 0 0 0-22z"/>'
+    '<path fill="#fff" d="M48 9Q49.96 14.04 55 16Q49.96 17.96 48 23Q46.04 17.96 41 16Q46.04 14.04 48 9Z"/></svg>'
+)
+LOGO_ACCENT = "text-pink-400"   # colour of "Net" in the header
+SHARE_IMAGE = "og-image.png"    # picture shown when a page without its own image is shared
+
+
+def icon_tags(root=""):
+    return (f'<link rel="icon" href="{root}favicon.svg" type="image/svg+xml">'
+            f'<link rel="icon" href="{root}favicon.png" type="image/png" sizes="48x48">'
+            f'<link rel="apple-touch-icon" href="{root}apple-touch-icon.png">')
 YOUTUBE_ID = re.compile(r"^[A-Za-z0-9_-]{11}$")
 
 # Search pages on licensed services. Used to turn a provider name into a link.
@@ -250,6 +269,9 @@ def render_page(template, row, kind):
         "JSONLD": json_ld(row, kind, url),
         "PLAYER_HTML": player_html(row),
         "AD_HEAD": AD_HEAD_CODE,
+        "ICON_TAGS": icon_tags(),
+        "LOGO_ICON": LOGO_ICON_SVG,
+        "LOGO_ACCENT": LOGO_ACCENT,
         "WATCH_HTML": watch_html(row),
     }
     # One pass, so text inside a description can never be mistaken for a placeholder.
@@ -287,11 +309,11 @@ def row_card(row):
              if label else "")
     year = (f'<span class="absolute bottom-2 right-2 text-[11px] font-semibold px-1.5 py-0.5 rounded bg-black/70">{esc(row["year"])}</span>'
             if row.get("year") else "")
-    trailer = ('<span class="absolute bottom-2 left-2 inline-flex items-center gap-1 text-[11px] font-semibold px-1.5 py-0.5 rounded bg-red-600/90">'
+    trailer = ('<span class="absolute bottom-2 left-2 inline-flex items-center gap-1 text-[11px] font-semibold px-1.5 py-0.5 rounded bg-pink-600/90">'
                '<svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>Trailer</span>'
                if YOUTUBE_ID.match(row.get("trailer_youtube_id", "")) else "")
     return f"""          <a href="{slug}.html" class="snap-start shrink-0 w-[72vw] sm:w-[44vw] md:w-[31vw] lg:w-[23.5vw] xl:w-[19vw] 2xl:w-[300px] group">
-            <div class="relative aspect-video rounded-md overflow-hidden bg-zinc-800 ring-1 ring-white/5 group-hover:ring-2 group-hover:ring-red-600 transition">
+            <div class="relative aspect-video rounded-md overflow-hidden bg-zinc-800 ring-1 ring-white/5 group-hover:ring-2 group-hover:ring-pink-600 transition">
               <img src="{esc(img)}" alt="{title}" loading="lazy" onerror="this.onerror=null;this.src='{FALLBACK_POSTER}';" class="w-full h-full {fit} group-hover:scale-105 transition duration-500">
               <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
               {badge}{trailer}{year}
@@ -318,6 +340,8 @@ def seo_head(title, description, path, image="", og_type="website"):
         f'<meta name="twitter:title" content="{title}">',
         f'<meta name="twitter:description" content="{esc(description)}">',
     ]
+    if not image and SITE_URL:
+        image = f"{SITE_URL}/{SHARE_IMAGE}"
     if image:
         tags.append(f'<meta property="og:image" content="{esc(image)}">')
         tags.append(f'<meta name="twitter:image" content="{esc(image)}">')
@@ -339,6 +363,7 @@ def shell(title, body, description="", overlay=False, active="", root="", path="
   <title>{title}</title>
   <meta name="description" content="{esc(description)}">
   <meta name="theme-color" content="#000000">
+  {icon_tags(root)}
   {seo_head(title, description, path, image)}
   {extra_head}
   <script src="https://cdn.tailwindcss.com"></script>
@@ -352,7 +377,7 @@ def shell(title, body, description="", overlay=False, active="", root="", path="
 <body class="bg-black text-zinc-100 min-h-screen flex flex-col">
   <header id="site-header" class="{'fixed' if overlay else 'sticky'} top-0 inset-x-0 z-50 transition-colors duration-300 {header_bg}">
     <div class="max-w-[1800px] mx-auto px-4 sm:px-8 h-16 flex items-center gap-4 sm:gap-8">
-      <a href="{root}index.html" class="text-xl sm:text-2xl font-black tracking-tight shrink-0">Drama<span class="text-red-600">Net</span></a>
+      <a href="{root}index.html" class="flex items-center gap-2 text-xl sm:text-2xl font-extrabold tracking-tight shrink-0" aria-label="DramaNet home">{LOGO_ICON_SVG}<span>Drama<span class="{LOGO_ACCENT}">Net</span></span></a>
       <nav class="flex items-center gap-3 sm:gap-6 text-sm" aria-label="Main navigation">
         {link("Home", "index.html", "home", "hidden sm:inline")}
         {link("Explore", "explore.html", "explore")}
@@ -480,7 +505,7 @@ def hero_slide(row, index):
     has_trailer = YOUTUBE_ID.match(row.get("trailer_youtube_id", ""))
     play_btn = (f'<a href="{row["_slug"]}.html#player" tabindex="{0 if index == 0 else -1}" class="inline-flex items-center gap-2 px-5 sm:px-7 py-2.5 rounded bg-white text-black font-bold text-sm sm:text-base hover:bg-white/80 transition">'
                 '<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>Play Trailer</a>') if has_trailer else ""
-    chip = (f'<span class="inline-block mb-3 text-[11px] font-bold uppercase tracking-widest px-2 py-1 rounded bg-red-600">{esc(row["category"])}</span>'
+    chip = (f'<span class="inline-block mb-3 text-[11px] font-bold uppercase tracking-widest px-2 py-1 rounded bg-pink-600">{esc(row["category"])}</span>'
             if row.get("category") else "")
     return f"""      <div class="hero-slide absolute inset-0 transition-opacity duration-1000 ease-in-out {'opacity-100' if index == 0 else 'opacity-0 pointer-events-none'}" aria-hidden="{'false' if index == 0 else 'true'}" role="group" aria-roledescription="slide" aria-label="{index + 1}">
         <img src="{esc(img)}" alt="" {'fetchpriority="high"' if index == 0 else 'loading="lazy"'} class="absolute inset-0 w-full h-full object-cover object-[50%_25%] transition-transform duration-[7000ms] ease-out {'' if index == 0 else 'scale-105'}">
@@ -543,10 +568,10 @@ ROW_SIZE = 20
 def guides_row(cards):
     """Homepage row linking to the guides."""
     items = "\n".join(f"""          <a href="{path}" class="snap-start shrink-0 w-[72vw] sm:w-[44vw] md:w-[31vw] lg:w-[23.5vw] xl:w-[19vw] 2xl:w-[300px] group">
-            <div class="relative aspect-video rounded-md overflow-hidden bg-zinc-800 ring-1 ring-white/5 group-hover:ring-2 group-hover:ring-red-600 transition">
+            <div class="relative aspect-video rounded-md overflow-hidden bg-zinc-800 ring-1 ring-white/5 group-hover:ring-2 group-hover:ring-pink-600 transition">
               {f'<img src="{esc(img)}" alt="" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">' if img else ''}
               <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
-              <span class="absolute top-2 left-2 text-[10px] font-bold uppercase tracking-wide px-1.5 py-0.5 rounded bg-red-600">Guide</span>
+              <span class="absolute top-2 left-2 text-[10px] font-bold uppercase tracking-wide px-1.5 py-0.5 rounded bg-pink-600">Guide</span>
               <h3 class="absolute bottom-2 left-3 right-3 text-sm sm:text-base font-bold leading-snug">{h1}</h3>
             </div>
           </a>""" for path, h1, desc, img in cards)
@@ -609,8 +634,7 @@ def build_home(rows, guide_cards=()):
 """
     return shell(f"{SITE_NAME} - Trailers, Cast &amp; Where to Watch K-Dramas, C-Dramas, Anime &amp; More",
                  body, "Browse K-dramas, C-dramas, anime and movies: official trailers, cast and where to watch them legally.",
-                 overlay=bool(hero), active="home", path="",
-                 image=wide_image(featured[0], "w1280")[0] if featured else "")
+                 overlay=bool(hero), active="home", path="")
 
 
 EXPLORE_SCRIPT = """
@@ -668,11 +692,11 @@ EXPLORE_SCRIPT = """
         a.href = d.s + '.html';
         a.className = 'group block';
         a.innerHTML =
-          '<div class="relative aspect-video rounded-md overflow-hidden bg-zinc-800 ring-1 ring-white/5 group-hover:ring-2 group-hover:ring-red-600 transition">' +
+          '<div class="relative aspect-video rounded-md overflow-hidden bg-zinc-800 ring-1 ring-white/5 group-hover:ring-2 group-hover:ring-pink-600 transition">' +
             '<img loading="lazy" alt="" class="w-full h-full object-cover ' + (d.w ? '' : 'object-[50%_20%]') + ' group-hover:scale-105 transition duration-500">' +
             '<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>' +
             (label ? '<span class="lbl absolute top-2 left-2 text-[10px] font-bold uppercase tracking-wide px-1.5 py-0.5 rounded bg-black/70"></span>' : '') +
-            (d.v ? '<span class="absolute bottom-2 left-2 text-[11px] font-semibold px-1.5 py-0.5 rounded bg-red-600/90">&#9654; Trailer</span>' : '') +
+            (d.v ? '<span class="absolute bottom-2 left-2 text-[11px] font-semibold px-1.5 py-0.5 rounded bg-pink-600/90">&#9654; Trailer</span>' : '') +
             (d.y ? '<span class="yr absolute bottom-2 right-2 text-[11px] font-semibold px-1.5 py-0.5 rounded bg-black/70"></span>' : '') +
           '</div>' +
           '<h3 class="mt-2 text-sm font-semibold truncate"></h3>' +
@@ -758,7 +782,7 @@ def build_explore(rows):
         <span class="sr-only">Search titles</span>
         <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path stroke-linecap="round" d="M20 20l-3.5-3.5"/></svg>
         <input id="q" type="search" placeholder="Search titles, cast, genre, country..." autocomplete="off"
-               class="w-full pl-9 pr-3 py-2 rounded-md bg-zinc-900 ring-1 ring-white/10 focus:ring-red-600 focus:outline-none text-sm placeholder:text-zinc-500">
+               class="w-full pl-9 pr-3 py-2 rounded-md bg-zinc-900 ring-1 ring-white/10 focus:ring-pink-600 focus:outline-none text-sm placeholder:text-zinc-500">
       </label>
     </div>
     <div class="mt-5 space-y-2.5">

@@ -6,6 +6,7 @@
   <title>Explore | DramaNet</title>
   <meta name="description" content="Filter K-dramas, C-dramas, anime and movies by type, category and country.">
   <meta name="theme-color" content="#000000">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="icon" href="favicon.png" type="image/png" sizes="48x48"><link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="canonical" href="https://dramanet.netlify.app/explore.html">
   <meta property="og:url" content="https://dramanet.netlify.app/explore.html">
   <meta property="og:site_name" content="DramaNet">
@@ -15,6 +16,8 @@
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Explore | DramaNet">
   <meta name="twitter:description" content="Filter K-dramas, C-dramas, anime and movies by type, category and country.">
+  <meta property="og:image" content="https://dramanet.netlify.app/og-image.png">
+  <meta name="twitter:image" content="https://dramanet.netlify.app/og-image.png">
   
   <script src="https://cdn.tailwindcss.com"></script>
   <script>(function(s){s.dataset.zone='12349063',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
@@ -27,7 +30,7 @@
 <body class="bg-black text-zinc-100 min-h-screen flex flex-col">
   <header id="site-header" class="sticky top-0 inset-x-0 z-50 transition-colors duration-300 bg-black/95 border-b border-white/10">
     <div class="max-w-[1800px] mx-auto px-4 sm:px-8 h-16 flex items-center gap-4 sm:gap-8">
-      <a href="index.html" class="text-xl sm:text-2xl font-black tracking-tight shrink-0">Drama<span class="text-red-600">Net</span></a>
+      <a href="index.html" class="flex items-center gap-2 text-xl sm:text-2xl font-extrabold tracking-tight shrink-0" aria-label="DramaNet home"><svg class="w-8 h-8 shrink-0" width="32" height="32" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="dnLogo" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8B5CF6"/><stop offset="1" stop-color="#EC4899"/></linearGradient></defs><rect width="64" height="64" rx="16" fill="url(#dnLogo)"/><path fill="#fff" fill-rule="evenodd" d="M17 13h13a19 19 0 0 1 0 38H17zM25 21v22h5a11 11 0 0 0 0-22z"/><path fill="#fff" d="M48 9Q49.96 14.04 55 16Q49.96 17.96 48 23Q46.04 17.96 41 16Q46.04 14.04 48 9Z"/></svg><span>Drama<span class="text-pink-400">Net</span></span></a>
       <nav class="flex items-center gap-3 sm:gap-6 text-sm" aria-label="Main navigation">
         <a href="index.html" class="text-zinc-300 hover:text-white transition hidden sm:inline">Home</a>
         <a href="explore.html" class="text-white font-semibold transition ">Explore</a>
@@ -57,7 +60,7 @@
         <span class="sr-only">Search titles</span>
         <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path stroke-linecap="round" d="M20 20l-3.5-3.5"/></svg>
         <input id="q" type="search" placeholder="Search titles, cast, genre, country..." autocomplete="off"
-               class="w-full pl-9 pr-3 py-2 rounded-md bg-zinc-900 ring-1 ring-white/10 focus:ring-red-600 focus:outline-none text-sm placeholder:text-zinc-500">
+               class="w-full pl-9 pr-3 py-2 rounded-md bg-zinc-900 ring-1 ring-white/10 focus:ring-pink-600 focus:outline-none text-sm placeholder:text-zinc-500">
       </label>
     </div>
     <div class="mt-5 space-y-2.5">
@@ -128,18 +131,18 @@
         a.href = d.s + '.html';
         a.className = 'group block';
         a.innerHTML =
-          '<div class="relative aspect-video rounded-md overflow-hidden bg-zinc-800 ring-1 ring-white/5 group-hover:ring-2 group-hover:ring-red-600 transition">' +
+          '<div class="relative aspect-video rounded-md overflow-hidden bg-zinc-800 ring-1 ring-white/5 group-hover:ring-2 group-hover:ring-pink-600 transition">' +
             '<img loading="lazy" alt="" class="w-full h-full object-cover ' + (d.w ? '' : 'object-[50%_20%]') + ' group-hover:scale-105 transition duration-500">' +
             '<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>' +
             (label ? '<span class="lbl absolute top-2 left-2 text-[10px] font-bold uppercase tracking-wide px-1.5 py-0.5 rounded bg-black/70"></span>' : '') +
-            (d.v ? '<span class="absolute bottom-2 left-2 text-[11px] font-semibold px-1.5 py-0.5 rounded bg-red-600/90">&#9654; Trailer</span>' : '') +
+            (d.v ? '<span class="absolute bottom-2 left-2 text-[11px] font-semibold px-1.5 py-0.5 rounded bg-pink-600/90">&#9654; Trailer</span>' : '') +
             (d.y ? '<span class="yr absolute bottom-2 right-2 text-[11px] font-semibold px-1.5 py-0.5 rounded bg-black/70"></span>' : '') +
           '</div>' +
           '<h3 class="mt-2 text-sm font-semibold truncate"></h3>' +
           '<p class="text-xs text-zinc-500 truncate"></p>';
         var img = a.querySelector('img');
         img.src = d.b; img.alt = d.t;
-        img.onerror = function () { this.onerror = null; this.src = 'https://placehold.co/300x450/1f1f1f/e50914?text=No+Poster'; };
+        img.onerror = function () { this.onerror = null; this.src = 'https://placehold.co/300x450/1f1f1f/a3a3a3?text=No+Poster'; };
         if (label) a.querySelector('.lbl').textContent = label;
         if (d.y) a.querySelector('.yr').textContent = d.y;
         a.querySelector('h3').textContent = d.t;

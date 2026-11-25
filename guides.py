@@ -92,7 +92,7 @@ def entry(g, row, data, number=None, show_ph=True):
             lines.append('<p class="mt-2 text-xs text-zinc-400"><span class="text-zinc-500">Streaming in the Philippines:</span> '
                          f'{g.esc(", ".join(prov))}</p>')
     trailer = g.YOUTUBE_ID.match(row.get("trailer_youtube_id", ""))
-    num = f'<span class="text-red-500 font-black mr-2">{number}.</span>' if number else ""
+    num = f'<span class="text-pink-500 font-black mr-2">{number}.</span>' if number else ""
     return f"""      <li class="flex flex-col sm:flex-row gap-4 py-6 border-b border-white/10">
         <a href="../{slug}.html" class="shrink-0 sm:w-64">
           <div class="relative aspect-video rounded-md overflow-hidden bg-zinc-800 ring-1 ring-white/10">
@@ -100,10 +100,10 @@ def entry(g, row, data, number=None, show_ph=True):
           </div>
         </a>
         <div class="min-w-0">
-          <h2 class="text-lg sm:text-xl font-bold">{num}<a href="../{slug}.html" class="hover:text-red-500">{g.esc(row['title'])}</a></h2>
+          <h2 class="text-lg sm:text-xl font-bold">{num}<a href="../{slug}.html" class="hover:text-pink-500">{g.esc(row['title'])}</a></h2>
           <p class="mt-1 text-xs text-zinc-400">{facts(g, row)}</p>
           {"".join(lines)}
-          <a href="../{slug}.html" class="mt-3 inline-flex text-sm font-semibold text-red-500 hover:text-red-400">{'Watch the trailer and see where to stream' if trailer else 'See cast and where to stream'} &rsaquo;</a>
+          <a href="../{slug}.html" class="mt-3 inline-flex text-sm font-semibold text-pink-500 hover:text-pink-400">{'Watch the trailer and see where to stream' if trailer else 'See cast and where to stream'} &rsaquo;</a>
         </div>
       </li>"""
 
@@ -266,9 +266,9 @@ def service_comparison(g, rows, data):
 
 # ---------------------------------------------------------------------------
 def hub(g, guides):
-    cards = "\n".join(f"""      <a href="{path.split('/', 1)[1]}" class="group block rounded-lg overflow-hidden bg-zinc-900 ring-1 ring-white/10 hover:ring-red-600 transition">
+    cards = "\n".join(f"""      <a href="{path.split('/', 1)[1]}" class="group block rounded-lg overflow-hidden bg-zinc-900 ring-1 ring-white/10 hover:ring-pink-600 transition">
         {f'<div class="aspect-video bg-zinc-800 overflow-hidden"><img src="{g.esc(img)}" alt="" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition duration-500"></div>' if img else ''}
-        <div class="p-4"><h2 class="font-bold group-hover:text-red-500">{h1}</h2><p class="mt-1 text-sm text-zinc-400">{g.esc(desc)}</p></div>
+        <div class="p-4"><h2 class="font-bold group-hover:text-pink-500">{h1}</h2><p class="mt-1 text-sm text-zinc-400">{g.esc(desc)}</p></div>
       </a>""" for path, h1, desc, img in guides)
     body = f"""
   <main class="flex-1 w-full max-w-6xl mx-auto px-4 sm:px-8 py-8 sm:py-12">
