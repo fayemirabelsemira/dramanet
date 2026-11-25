@@ -30,6 +30,11 @@ SITE_NAME = "DramaNet"
 # Your live address once deployed, e.g. "https://dramanet.netlify.app" (no slash at the end).
 # Leave it empty until you know it; the sitemap and canonical links need it.
 SITE_URL = "https://dramanet.netlify.app"
+# Ad code added to the <head> of EVERY page (homepage, title pages, Explore, guides, info pages).
+# Paste Monetag / PropellerAds head tags between the triple quotes. Leave empty for no ads.
+AD_HEAD_CODE = """
+<script>(function(s){s.dataset.zone='12349063',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+""".strip()
 # Google Search Console "HTML tag" code (just the content="..." part). See DEPLOY.md, step 3.
 GOOGLE_VERIFICATION = ""
 # Email shown on the Contact, Privacy and DMCA pages. Change this to your own address.
@@ -244,6 +249,7 @@ def render_page(template, row, kind):
         "OG_URL_TAG": f'<meta property="og:url" content="{esc(url)}" />' if url else "",
         "JSONLD": json_ld(row, kind, url),
         "PLAYER_HTML": player_html(row),
+        "AD_HEAD": AD_HEAD_CODE,
         "WATCH_HTML": watch_html(row),
     }
     # One pass, so text inside a description can never be mistaken for a placeholder.
@@ -336,6 +342,7 @@ def shell(title, body, description="", overlay=False, active="", root="", path="
   {seo_head(title, description, path, image)}
   {extra_head}
   <script src="https://cdn.tailwindcss.com"></script>
+  {AD_HEAD_CODE}
   <style>
     .no-scrollbar::-webkit-scrollbar {{ display:none; }}
     .no-scrollbar {{ -ms-overflow-style:none; scrollbar-width:none; }}
