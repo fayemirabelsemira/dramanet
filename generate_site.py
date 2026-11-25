@@ -39,6 +39,26 @@ AD_HEAD_CODE = """
 GOOGLE_VERIFICATION = ""
 # Email shown on the Contact, Privacy and DMCA pages. Change this to your own address.
 CONTACT_EMAIL = "contact@example.com"
+# "Trending This Week": slugs (page names without .html) shown first in the homepage hero and
+# "Trending Now" row, and in guides/trending-this-week.html. Update this list every week or so.
+TRENDING_UPDATED = "November 25, 2026"
+TRENDING_NOW = [
+    "the-remarried-empress",
+    "100-days-of-deception",
+    "love-in-disguise",
+    "the-blue-road",
+    "dead-end-job",
+    "doctor-x-mafia-in-white",
+    "the-perfect-lie",
+    "final-table",
+    "take-charge-of-my-heart",
+    "agent-kim-reactivated",
+    "where-the-mask-ends",
+    "pursuit-of-jade-chasing-jade",
+    "kusuriya-no-hitorigoto-the-apothecary-diaries",
+    "one-piece",
+    "ang-mutya-ng-section-e-the-muse-of-section-e",
+]
 # ---------------------------------------------------------------------------
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -586,15 +606,24 @@ def guides_row(cards):
     </section>"""
 
 
+def trending_rows(rows):
+    """The rows named in TRENDING_NOW, in that order (unknown slugs are skipped)."""
+    by_slug = {r["_slug"]: r for r in rows}
+    return [by_slug[s] for s in TRENDING_NOW if s in by_slug]
+
+
 def build_home(rows, guide_cards=()):
     by_pop = sorted(rows, key=popularity, reverse=True)
     # Hero and "Trending Now" focus on Asian titles; Western shows get their own row.
     asian = [r for r in by_pop if r.get("category") not in ("Western", "Other", "Variety", "")]
     newest_year = max((year_of(r) for r in rows), default=0)
     recent = [r for r in (asian or by_pop) if year_of(r) >= newest_year - 1]
+    trending = trending_rows(rows)
+    trending_ids = {r["_slug"] for r in trending}
+    trending_row = trending + [r for r in (asian or by_pop) if r["_slug"] not in trending_ids]
 
-    # Hero: popular recent titles that have a wide image (and ideally a trailer).
-    wide = [r for r in recent if wide_image(r)[1]]
+    # Hero: this week's trending titles first, then popular recent titles, that have a wide image (and ideally a trailer).
+    wide = [r for r in trending + [r for r in recent if r["_slug"] not in trending_ids] if wide_image(r)[1]]
     featured = [r for r in wide if YOUTUBE_ID.match(r.get("trailer_youtube_id", ""))][:6] or wide[:6]
     if not featured:
         featured = [r for r in by_pop if wide_image(r)[1]][:6]
@@ -604,7 +633,7 @@ def build_home(rows, guide_cards=()):
         return [r for r in by_pop if r.get("category") in names]
 
     sections = [
-        ("Trending Now", asian or by_pop, "explore.html?sort=popular"),
+        ("Trending Now", trending_row, "guides/trending-this-week.html" if trending else "explore.html?sort=popular"),
         ("New Releases", [r for r in recent if r["_slug"] not in featured_ids] or recent, "explore.html?sort=newest"),
         ("Top K-Dramas", cat("K-Drama"), "explore.html?cat=K-Drama"),
         ("Top C-Dramas", cat("C-Drama"), "explore.html?cat=C-Drama"),

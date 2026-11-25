@@ -219,6 +219,20 @@ def new_with_trailers(g, picks, data, year, label):
                                    content_html=f'<ul class="mt-6">{items}</ul>', image=g.wide_image(picks[0], "w1280")[0])
 
 
+def trending_this_week(g, picks, data):
+    items = "\n".join(entry(g, r, data, i) for i, r in enumerate(picks, start=1))
+    when = g.esc(g.TRENDING_UPDATED)
+    intro = (f'      <p>These are the Asian dramas and anime people are talking about most right now: this week\'s top K-drama buzz charts, '
+             f'the Netflix Philippines Top 10 and the most-viewed titles on TMDB (list checked {when}).</p>\n'
+             '      <p>Tap any title to watch the official trailer and see which licensed services stream it in the Philippines.</p>')
+    path = "guides/trending-this-week.html"
+    h1 = "Trending This Week: K-Dramas, C-Dramas &amp; Anime"
+    desc = (f"The {len(picks)} most talked-about K-dramas, C-dramas and anime this week, with official trailers, "
+            "cast and where to stream them in the Philippines.")
+    return path, h1, desc, article(g, path=path, title=h1, h1=h1, description=desc, intro_html=intro,
+                                   content_html=f'<ul class="mt-6">{items}</ul>', image=g.wide_image(picks[0], "w1280")[0])
+
+
 def service_comparison(g, rows, data):
     def counts(category):
         seen, c, total = set(), Counter(), 0
@@ -301,6 +315,11 @@ def build(g, rows):
         path, h1, desc, page = result
         (g.OUTPUT_DIR / path).write_text(page, encoding="utf-8")
         made.append((path, h1, desc, image))
+
+    # 0) Trending this week (hand-picked list TRENDING_NOW in generate_site.py).
+    trending = g.trending_rows(rows)
+    if len(trending) >= 5:
+        save(trending_this_week(g, trending, data), g.wide_image(trending[0])[0])
 
     # 1) Where to watch in the Philippines: the 5 most popular dramas that have your description and PH data.
     picks, seen = [], set()
